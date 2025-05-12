@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -7,8 +8,8 @@ const Home = () => {
         <img src="./img/logo-xxl.png" alt="" />
       </div>
       <div className="d-flex flex-column">
-        <a className="btn-rpg mb-3" href="#">Login</a>
-        <a className="btn-rpg" href="#">Register</a>
+        <Link className="btn-rpg mb-3" to="/login">Login</Link>
+        <Link className="btn-rpg" to="/register">Register</Link>
       </div>
     </main>
   )
