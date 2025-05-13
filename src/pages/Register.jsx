@@ -55,21 +55,23 @@ const characters = [
 const Register = () => {
   const swiperRef = useRef(null);
   const formRef = useRef(null)
-  const [characterSelectedIndex, setCharacterSelectedIndex] = useState(1);
+  const [characterSelectedIndex, setCharacterSelectedIndex] = useState(1)
   const [characterSelected, setCharacterSelected] = useState(characters[0])
+
   // Form
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [nickname, setNickname] = useState('')
 
+  // useEffect para definir personagem selecionado
   useEffect(() => {
-    console.log(characterSelectedIndex)
     characters.filter(el => el.id === characterSelectedIndex).map(el => {
       setCharacterSelected(el)
     })
   }, [characterSelectedIndex]);
 
+  // useEffect para carregar o Swiper
   useEffect(() => {
     if (swiperRef.current) {
       new Swiper(swiperRef.current, {
@@ -85,7 +87,13 @@ const Register = () => {
     }
   }, []);
 
+  function handleFormSubmit(e) {
+    e.preventDefault()
+  }
 
+  function handleFormClick() {
+    formRef.current.requestSubmit()
+  }
 
   return (
     <main className="main-site-register vh-100 vw-100">
@@ -97,7 +105,7 @@ const Register = () => {
 
       <div className="main-site-register-middle">
         <div className="right-border d-flex justify-content-center align-items-center">
-          <form action="#" className="rpg-form" ref={formRef}>
+          <form action="#" className="rpg-form" ref={formRef} onSubmit={handleFormSubmit}>
             <InptGroup name={'name'} type={'text'} label={'Nome'} value={name} handleChange={setName} />
             <InptGroup name={'email'} type={'email'} label={'E-mail'} value={email} handleChange={setEmail} />
             <InptGroup name={'password'} type={'password'} label={'Senha'} value={password} handleChange={setPassword} />
@@ -162,7 +170,7 @@ const Register = () => {
       </div>
 
       <div className="main-site-register-bottom d-flex justify-content-center align-items-center p-3">
-        <button className="btn-rpg">Registrar</button>
+        <button className="btn-rpg" onClick={handleFormClick}>Registrar</button>
       </div>
     </main>
   );
