@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import InptGroup from '../components/InptGroup';
 
 const characters = [
   {
@@ -53,9 +54,14 @@ const characters = [
 
 const Register = () => {
   const swiperRef = useRef(null);
-
+  const formRef = useRef(null)
   const [characterSelectedIndex, setCharacterSelectedIndex] = useState(1);
   const [characterSelected, setCharacterSelected] = useState(characters[0])
+  // Form
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [nickname, setNickname] = useState('')
 
   useEffect(() => {
     console.log(characterSelectedIndex)
@@ -79,6 +85,8 @@ const Register = () => {
     }
   }, []);
 
+
+
   return (
     <main className="main-site-register vh-100 vw-100">
       <div className="main-site-register-top d-flex align-items-center justify-content-center">
@@ -89,23 +97,11 @@ const Register = () => {
 
       <div className="main-site-register-middle">
         <div className="right-border d-flex justify-content-center align-items-center">
-          <form action="#" className="rpg-form">
-            <div className="d-flex flex-column justify-content-start align-items-start mb-3">
-              <label htmlFor="name" className="label-rpg fs-3">Nome</label>
-              <input type="text" id="name" name="name" className="inpt-rpg" />
-            </div>
-            <div className="d-flex flex-column justify-content-start align-items-start mb-3">
-              <label htmlFor="email" className="label-rpg fs-3">E-mail</label>
-              <input type="text" id="email" name="email" className="inpt-rpg" />
-            </div>
-            <div className="d-flex flex-column justify-content-start align-items-start mb-3">
-              <label htmlFor="password" className="label-rpg fs-3">Senha</label>
-              <input type="password" id="password" name="password" className="inpt-rpg" />
-            </div>
-            <div className="d-flex flex-column justify-content-start align-items-start mb-3">
-              <label htmlFor="nickname" className="label-rpg fs-3">Nick</label>
-              <input type="text" id="nickname" name="nickname" className="inpt-rpg" />
-            </div>
+          <form action="#" className="rpg-form" ref={formRef}>
+            <InptGroup name={'name'} type={'text'} label={'Nome'} value={name} handleChange={setName} />
+            <InptGroup name={'email'} type={'email'} label={'E-mail'} value={email} handleChange={setEmail} />
+            <InptGroup name={'password'} type={'password'} label={'Senha'} value={password} handleChange={setPassword} />
+            <InptGroup name={'nickname'} type={'text'} label={'Nick'} value={nickname} handleChange={setNickname} />
           </form>
         </div>
 
@@ -116,7 +112,6 @@ const Register = () => {
             centeredSlides={true}
             // loop={true}
             spaceBetween={30}
-
             onSlideChange={(swiper) => { setCharacterSelectedIndex(swiper.activeIndex + 1) }}
             navigation={{
               nextEl: '.swiper-button-next',
@@ -146,19 +141,19 @@ const Register = () => {
             <div className="mb-3">
               <span className="rpg-text-title fs-2">Ataque</span>
               <div className="progress-container">
-              {[...Array(5)].map((_, i) => <div key={i} className={`pc-dot ${characterSelected.attributes.attack >= i ? "full" : ""}`}></div>)}
+                {[...Array(5)].map((_, i) => <div key={i} className={`pc-dot ${characterSelected.attributes.attack >= i ? "full" : ""}`}></div>)}
               </div>
             </div>
             <div className="mb-3">
               <span className="rpg-text-title fs-2">Cura</span>
               <div className="progress-container">
-              {[...Array(5)].map((_, i) => <div key={i} className={`pc-dot ${characterSelected.attributes.healing >= i ? "full" : ""}`}></div>)}
+                {[...Array(5)].map((_, i) => <div key={i} className={`pc-dot ${characterSelected.attributes.healing >= i ? "full" : ""}`}></div>)}
               </div>
             </div>
             <div className="mb-3">
               <span className="rpg-text-title fs-2">Percepção</span>
               <div className="progress-container">
-              {[...Array(5)].map((_, i) => <div key={i} className={`pc-dot ${characterSelected.attributes.perception >= i ? "full" : ""}`}></div>)}
+                {[...Array(5)].map((_, i) => <div key={i} className={`pc-dot ${characterSelected.attributes.perception >= i ? "full" : ""}`}></div>)}
               </div>
             </div>
           </div>
@@ -167,7 +162,7 @@ const Register = () => {
       </div>
 
       <div className="main-site-register-bottom d-flex justify-content-center align-items-center p-3">
-        <a className="btn-rpg" href="#">Registrar</a>
+        <button className="btn-rpg">Registrar</button>
       </div>
     </main>
   );
