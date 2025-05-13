@@ -1,11 +1,68 @@
-import React, { useEffect, useRef } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+const characters = [
+  {
+    id: 1,
+    image: "./img/character_1.png",
+    name: "Character 1",
+    attributes: {
+      magic: 0,
+      attack: 2,
+      healing: 0,
+      perception: 5
+    }
+  },
+  {
+    id: 2,
+    image: "./img/character_2.png",
+    name: "Character 2",
+    attributes: {
+      magic: 5,
+      attack: 1,
+      healing: 1,
+      perception: 0
+    }
+  },
+  {
+    id: 3,
+    image: "./img/character_3.png",
+    name: "Character 3",
+    attributes: {
+      magic: 0,
+      attack: 5,
+      healing: 0,
+      perception: 2
+    }
+  },
+  {
+    id: 4,
+    image: "./img/character_4.png",
+    name: "Character 4",
+    attributes: {
+      magic: 0,
+      attack: 5,
+      healing: 2,
+      perception: 2
+    }
+  }
+];
+
 const Register = () => {
   const swiperRef = useRef(null);
+
+  const [characterSelectedIndex, setCharacterSelectedIndex] = useState(1);
+  const [characterSelected, setCharacterSelected] = useState(characters[0])
+
+  useEffect(() => {
+    console.log(characterSelectedIndex)
+    characters.filter(el => el.id === characterSelectedIndex).map(el => {
+      setCharacterSelected(el)
+    })
+  }, [characterSelectedIndex]);
 
   useEffect(() => {
     if (swiperRef.current) {
@@ -57,19 +114,21 @@ const Register = () => {
             modules={[Navigation]}
             slidesPerView={3}
             centeredSlides={true}
-            loop={true}
+            // loop={true}
             spaceBetween={30}
+
+            onSlideChange={(swiper) => { setCharacterSelectedIndex(swiper.activeIndex + 1) }}
             navigation={{
               nextEl: '.swiper-button-next',
               prevEl: '.swiper-button-prev',
             }}
             className="mySwiper"
           >
-            <SwiperSlide><img src="./img/character_1.png" alt="Personagem 1" /></SwiperSlide>
-            <SwiperSlide><img src="./img/character_2.png" alt="Personagem 2" /></SwiperSlide>
-            <SwiperSlide><img src="./img/character_3.png" alt="Personagem 3" /></SwiperSlide>
-            <SwiperSlide><img src="./img/character_4.png" alt="Personagem 4" /></SwiperSlide>
-
+            {characters && characters.map(character => {
+              return (
+                <SwiperSlide key={character.id}><img src={character.image} alt="Personagem 1" /></SwiperSlide>
+              )
+            })}
             <div className="swiper-button-prev"></div>
             <div className="swiper-button-next"></div>
           </Swiper>
@@ -78,47 +137,32 @@ const Register = () => {
         <div className="left-border d-flex px-4 justify-content-start align-items-center">
           <div>
             <h1 className="rpg-text-title mb-4">Atributos</h1>
-            <div class="mb-3">
-              <span class="rpg-text-title fs-2">Magia</span>
-              <div class="progress-container">
-                <div class="pc-dot full"></div>
-                <div class="pc-dot"></div>
-                <div class="pc-dot"></div>
-                <div class="pc-dot"></div>
-                <div class="pc-dot"></div>
+            <div className="mb-3">
+              <span className="rpg-text-title fs-2">Magia</span>
+              <div className="progress-container">
+                {[...Array(5)].map((_, i) => <div key={i} className={`pc-dot ${characterSelected.attributes.magic >= i ? "full" : ""}`}></div>)}
               </div>
             </div>
-            <div class="mb-3">
-              <span class="rpg-text-title fs-2">Ataque</span>
-              <div class="progress-container">
-                <div class="pc-dot full"></div>
-                <div class="pc-dot full"></div>
-                <div class="pc-dot full"></div>
-                <div class="pc-dot"></div>
-                <div class="pc-dot"></div>
+            <div className="mb-3">
+              <span className="rpg-text-title fs-2">Ataque</span>
+              <div className="progress-container">
+              {[...Array(5)].map((_, i) => <div key={i} className={`pc-dot ${characterSelected.attributes.attack >= i ? "full" : ""}`}></div>)}
               </div>
             </div>
-            <div class="mb-3">
-              <span class="rpg-text-title fs-2">Cura</span>
-              <div class="progress-container">
-                <div class="pc-dot full"></div>
-                <div class="pc-dot full"></div>
-                <div class="pc-dot "></div>
-                <div class="pc-dot"></div>
-                <div class="pc-dot"></div>
+            <div className="mb-3">
+              <span className="rpg-text-title fs-2">Cura</span>
+              <div className="progress-container">
+              {[...Array(5)].map((_, i) => <div key={i} className={`pc-dot ${characterSelected.attributes.healing >= i ? "full" : ""}`}></div>)}
               </div>
             </div>
-            <div class="mb-3">
-              <span class="rpg-text-title fs-2">Percepção</span>
-              <div class="progress-container">
-                <div class="pc-dot full"></div>
-                <div class="pc-dot full"></div>
-                <div class="pc-dot full"></div>
-                <div class="pc-dot full"></div>
-                <div class="pc-dot"></div>
+            <div className="mb-3">
+              <span className="rpg-text-title fs-2">Percepção</span>
+              <div className="progress-container">
+              {[...Array(5)].map((_, i) => <div key={i} className={`pc-dot ${characterSelected.attributes.perception >= i ? "full" : ""}`}></div>)}
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
