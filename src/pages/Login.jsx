@@ -1,21 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
+import InptGroup from '../components/InptGroup'
 
 const Login = () => {
+  // Form
+  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('')
+
+  function handleSubmit(e) {
+    e.preventDefault()
+  }
+
   return (
     <main className="main-site-home vh-100 vw-100 d-flex justify-content-center align-items-center flex-column">
       <div className="logo-xxl mb-5">
         <img src="./img/logo-xxl.png" alt="" />
       </div>
       <div className="d-flex flex-column justify-content-center align-items-center">
-        <form action="" className="d-flex flex-column justify-content-center align-items-center">
-          <div className="d-flex flex-column justify-content-start align-items-start mb-3">
-            <label for="email" className="label-rpg fs-3">E-mail</label>
-            <input type="text" id="email" name="email" className="inpt-rpg" />
-          </div>
-          <div className="d-flex flex-column justify-content-start align-items-start mb-3">
-            <label for="password" className="label-rpg fs-3">Senha</label>
-            <input type="password" id="password" name="password" className="inpt-rpg" />
-          </div>
+        <form className="d-flex flex-column justify-content-center align-items-center" onSubmit={handleSubmit}>
+          <InptGroup name={'email'} type={'email'} label={'E-mail'} value={email} handleChange={setEmail} />
+          <InptGroup name={'password'} type={'password'} label={'Senha'} value={password} handleChange={setPassword} />
           <button className="btn-rpg mb-3" type="submit">Login</button>
         </form>
       </div>
