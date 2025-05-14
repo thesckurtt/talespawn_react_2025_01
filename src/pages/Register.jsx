@@ -1,10 +1,11 @@
-import React, { use, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import InptGroup from '../components/InptGroup';
-
+import { useAuth } from '../context/AuthContext';
 const characters = [
   {
     id: 1,
@@ -55,9 +56,12 @@ const characters = [
 const Register = () => {
   const swiperRef = useRef(null);
   const formRef = useRef(null)
+
+  const navigate = useNavigate()
+
   const [characterSelectedIndex, setCharacterSelectedIndex] = useState(1)
   const [characterSelected, setCharacterSelected] = useState(characters[0])
-
+  const {login} = useAuth()
   // Form
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -89,6 +93,16 @@ const Register = () => {
 
   function handleFormSubmit(e) {
     e.preventDefault()
+    const data = {
+      name: name,
+      email: email,
+      password: password,
+      nickname: nickname,
+      character_id: characterSelected.id
+    }
+    login(data)
+    navigate('/game', {replace: true})
+    // window.localStorage.setItem('user', JSON.stringify(data));
   }
 
   function handleFormClick() {
